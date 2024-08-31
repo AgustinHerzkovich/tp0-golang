@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Mensaje struct {
@@ -38,8 +39,14 @@ func LeerConsola() {
 	// Leer de la consola
 	reader := bufio.NewReader(os.Stdin)
 	log.Println("Ingrese los mensajes")
-	text, _ := reader.ReadString('\n')
-	log.Print(text)
+	for {
+		text, _ := reader.ReadString('\n')
+		text = strings.TrimSpace(text)
+		if text == "" {
+			break
+		}
+		log.Print(text)
+	}
 }
 
 func GenerarYEnviarPaquete() {
