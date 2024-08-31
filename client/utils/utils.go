@@ -89,7 +89,3 @@ func ConfigurarLogger() {
 	mw := io.MultiWriter(os.Stdout, logFile)
 	log.SetOutput(mw)
 }
-
-func loggearMensaje(mensaje string) {
-	log.Println(mensaje)
-}
