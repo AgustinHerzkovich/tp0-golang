@@ -25,7 +25,7 @@ func main() {
 	// enviar un mensaje al servidor con el valor de la config
 
 	// leer de la consola el mensaje
-	// utils.LeerConsola()
+	utils.LeerConsola()
 
 	// generamos un paquete y lo enviamos al servidor
 	// utils.GenerarYEnviarPaquete()
