@@ -9,6 +9,7 @@ func main() {
 	utils.ConfigurarLogger()
 
 	// loggear "Hola soy un log" usando la biblioteca log
+	log.Println("Hola soy un log")
 	globals.ClientConfig = utils.IniciarConfiguracion("config.json")
 	// validar que la config este cargada correctamente
 
