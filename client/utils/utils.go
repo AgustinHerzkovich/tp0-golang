@@ -35,10 +35,11 @@ func IniciarConfiguracion(filePath string) *globals.Config {
 	return config
 }
 
-func LeerConsola() {
+func LeerConsola() []string{
 	// Leer de la consola
+	mensajes  := []string{}
 	reader := bufio.NewReader(os.Stdin)
-	log.Println("Ingrese los mensajes")
+	log.Println("Ingrese el mensaje a empaquetar y presione enter. Para finalizar presione enter sin ingresar texto")
 	for {
 		text, _ := reader.ReadString('\n')
 		text = strings.TrimSpace(text)
@@ -46,20 +47,25 @@ func LeerConsola() {
 			break
 		}
 		log.Print(text)
+		mensajes = append(mensajes, text)
 	}
+	return mensajes
 }
 
-func GenerarYEnviarPaquete() {
-	paquete := Paquete{}
+func GenerarYEnviarPaquete(ip string, puerto int, mensajes []string) {
 	// Leemos y cargamos el paquete
-
-	log.Printf("paqute a enviar: %+v", paquete)
-	// Enviamos el paqute
+	paquete := Paquete{}
+	log.Println("Generando paquete")
+	paquete.Valores = mensajes
+	
+	log.Printf("paquete a enviar: %+v", paquete)
+	// Enviamos el paquete
+	EnviarPaquete(globals.ClientConfig.Ip, globals.ClientConfig.Puerto, paquete)
 }
 
 func EnviarMensaje(ip string, puerto int, mensajeTxt string) {
 	mensaje := Mensaje{Mensaje: mensajeTxt}
-	body, err := json.Marshal(mensaje)
+	body, err := json.Marshal(mensaje) //convierte el mensaje en una representación JSON
 	if err != nil {
 		log.Printf("error codificando mensaje: %s", err.Error())
 	}
@@ -85,7 +91,7 @@ func EnviarPaquete(ip string, puerto int, paquete Paquete) {
 		log.Printf("error enviando mensajes a ip:%s puerto:%d", ip, puerto)
 	}
 
-	log.Printf("respuesta del servidor: %s", resp.Status)
+	log.Printf("respuesta del servidor: %s", resp.Status) // fue "200 OK", 200 indica que la solicitud fue exitosa y OK es una descripción del código 200
 }
 
 func ConfigurarLogger() {
